@@ -7,7 +7,9 @@
                  [ring/ring-core "1.3.1"]
                  [ring/ring-jetty-adapter "1.3.1"]
                  [ring/ring-json "0.3.1"]
-                 [compojure "1.2.2"]]
+                 [compojure "1.2.2"]
+                 [com.googlecode.libphonenumber/libphonenumber "7.0"]]
+  :repositories [["java.net" "http://download.java.net/maven/2"]]
   :plugins [[lein-ring "0.8.11"]]
   :ring {:handler phonelib.core/app}
   :profiles
