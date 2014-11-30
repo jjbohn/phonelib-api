@@ -12,19 +12,16 @@
    :extension       (.getExtension number)
    })
 
-(defn default-country-code
-  "US")
-
 (defn country-code-from [request]
-  (request :params "country_code" default-country-code))
+  ((request :params) "country_code"))
 
 (defn number-from [request]
-  (request :params "number"))
+  ((request :params) "number"))
 
 (defn parse [request]
   (let [util (PhoneNumberUtil/getInstance)]
     (let [number (.parse util (number-from request)
-                         (country-code-from request)))]
+                         (country-code-from request))]
     (response {:numbers [(phone-number-map number)]}))))
 
 (defroutes app-routes
