@@ -4,17 +4,14 @@
             [ring.middleware.json :refer [wrap-json-response]]
             [ring.middleware.params :refer :all]
             [ring.util.response :refer :all]
-            [phonelib.shared :refer :all])
-  (:import [com.google.i18n.phonenumbers PhoneNumberUtil]))
+            [phonelib.shared :refer :all]))
 
-
-
-(defn parse [request]
-  (let [number (.parse (phone-util) (number-from request) (default-country-code))]
-    (response {:numbers [(phone-number-map number)]})))
+(defn info [request]
+  (let [number (.parse phone-util (number-from request) (country-code-from request))]
+       (response {:numbers [(phone-number-map number)]})))
 
 (defroutes app-routes
-  (GET "/api/v1/parse" [] parse))
+  (GET "/api/v1/info" [] info))
 
 (def app
   (->
