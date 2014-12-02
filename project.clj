@@ -9,6 +9,7 @@
                  [ring/ring-json "0.3.1"]
                  [compojure "1.2.2"]
                  [com.googlecode.libphonenumber/libphonenumber "7.0.1"]
+                 [com.googlecode.libphonenumber/geocoder "2.18"]
                  [com.googlecode.libphonenumber/carrier "1.8"]]
   :repositories [["java.net" "http://download.java.net/maven/2"]]
   :plugins [[lein-ring "0.8.11"]]
