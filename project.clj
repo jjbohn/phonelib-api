@@ -15,5 +15,6 @@
   :repositories [["java.net" "http://download.java.net/maven/2"]]
   :plugins [[lein-ring "0.8.11"]]
   :ring {:handler phonelib.core/app}
+  :main phonelib.core
   :profiles
   {:dev {:dependencies [[ring-mock "0.1.5"]]}})
