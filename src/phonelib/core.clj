@@ -11,8 +11,19 @@
   (let [number (.parse phone-util (number-from request) (country-code-from request))]
        (response {:numbers [(phone-number-map number)]})))
 
+
+(defn find-numbers-do [request]
+  (iterator-seq (.iterator (.findNumbers phone-util
+                                         (text-from request)
+                                         (country-code-from request)))))
+
+(defn find-numbers [request]
+  (let [numbers (map #(.number %) (find-numbers-do request))]
+       (response {:numbers (map phone-number-map numbers)})))
+
 (defroutes app-routes
-  (GET "/api/v1/info" [] info))
+  (GET "/api/v1/info" [] info)
+  (GET "/api/v1/find" [] find-numbers))
 
 (def app
   (->

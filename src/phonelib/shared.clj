@@ -23,6 +23,9 @@
 (defn number-from [request]
   ((request :params) "number"))
 
+(defn text-from [request]
+  ((request :params) "text"))
+
 (defn format-e164 [number]
   (.format phone-util number PhoneNumberUtil$PhoneNumberFormat/E164))
 
