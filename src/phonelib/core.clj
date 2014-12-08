@@ -5,21 +5,21 @@
             [ring.middleware.json :refer [wrap-json-response]]
             [ring.middleware.params :refer :all]
             [ring.util.response :refer :all]
-            [phonelib.shared :refer :all]))
+            [phonelib.shared :as phonelib]))
+
+(defn number-from [request] ((request :params) "number"))
+
+(defn text-from [request] ((request :params) "text"))
+
+(defn country-code-from [request] ((request :params) "country_code" "US"))
 
 (defn info [request]
-  (let [number (.parse phone-util (number-from request) (country-code-from request))]
-       (response {:numbers [(phone-number-map number)]})))
-
-
-(defn find-numbers-do [request]
-  (iterator-seq (.iterator (.findNumbers phone-util
-                                         (text-from request)
-                                         (country-code-from request)))))
+  (let [number (phonelib/info (number-from request) (country-code-from request))]
+    (response {:numbers [number]})))
 
 (defn find-numbers [request]
-  (let [numbers (map #(.number %) (find-numbers-do request))]
-       (response {:numbers (map phone-number-map numbers)})))
+  (let [numbers (phonelib/find-numbers (text-from request) (country-code-from request))]
+    (response {:numbers numbers})))
 
 (defroutes app-routes
   (GET "/api/v1/info" [] info)

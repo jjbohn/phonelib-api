@@ -15,17 +15,6 @@
 (defn nil-if-empty [arg]
   (if (empty? arg) nil arg))
 
-(defn default-country-code [] "US")
-
-(defn country-code-from [request]
-  ((request :params) "country_code" (default-country-code)))
-
-(defn number-from [request]
-  ((request :params) "number"))
-
-(defn text-from [request]
-  ((request :params) "text"))
-
 (defn format-e164 [number]
   (.format phone-util number PhoneNumberUtil$PhoneNumberFormat/E164))
 
@@ -54,3 +43,12 @@
    :national_format      (format-national number)
    :carrier              (nil-if-empty (carrier number))
    :location             (nil-if-empty (geocode number))})
+
+(defn info [number, country-code]
+  (let [number (.parse phone-util number, country-code)]
+    (phone-number-map number)))
+
+(defn find-numbers [string, country-code]
+  (let [numbers (map #(.number %)
+                     (iterator-seq (.iterator (.findNumbers phone-util string, country-code))))]
+    (map phone-number-map numbers)))
